@@ -15,10 +15,10 @@ using RemoveReference = typename detail::RemoveReference<T>::Type;
 
 /* Type equality */
 template<typename A, typename B>
-inline constexpr auto is_same = false;
+constexpr auto is_same = false;
 
 template<typename T>
-inline constexpr auto is_same<T, T> = true;
+constexpr auto is_same<T, T> = true;
 
 template<typename T>
 constexpr T&& forward(RemoveReference<T>&& arg) {

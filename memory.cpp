@@ -12,7 +12,6 @@ void mem_copy_no_overlap(void* dest, void const* source, usize count){
 }
 
 void mem_set(void* dest, byte value, usize count){
-	printf("SET: %p %td\n", dest, count);
 	__builtin_memset(dest, value, count);
 }
 

@@ -7,26 +7,40 @@
 	#define NEWDEL_CALL
 #endif
 
-extern "C" void __cxa_pure_virtual() {
-    abort ();
+extern "C" {
+int printf(const char*, ...);
+
+void __cxa_pure_virtual() {
+    abort();
+}
 }
 
-void * NEWDEL_CALL operator new(size_t size) {
-    return malloc (size);
+void* NEWDEL_CALL operator new(size_t size) {
+    void* p = malloc(size);
+	if(!p){
+		printf("bad malloc()");
+		abort();
+	}
+	return p;
 }
 
-void * NEWDEL_CALL operator new [](size_t size) {
-    return malloc (size);
+void * NEWDEL_CALL operator new[](size_t size) {
+    void* p = malloc(size);
+	if(!p){
+		printf("bad malloc()");
+		abort();
+	}
+	return p;
 }
 
 void NEWDEL_CALL operator delete(void *p) {
-    if (p) free (p);
+	free(p);
 }
 
-void NEWDEL_CALL operator delete [](void *p) {
-    if (p) free (p);
+void NEWDEL_CALL operator delete[](void *p) {
+	free(p);
 }
 
 void NEWDEL_CALL operator delete(void *p, size_t) {
-    if (p) free (p);
+	free(p);
 }

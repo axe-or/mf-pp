@@ -1,17 +1,22 @@
 #include "memory.hpp"
 #include "option.hpp"
+#include "result.hpp"
 
+enum class Error {
+	Bruh = 1,
+};
 int main(){
 	using namespace mf;
-	auto arena_memory = Slice(new byte[5000], 5000);
+	auto arena_memory = Slice<byte>(new byte[5000], 5000);
 
-	Option<Arena> arena = Arena::from_buffer(arena_memory);
+	Result<Arena, Error> arena = Arena::from_buffer(arena_memory);
+	// arena = Result<Arena, Error>{Error::Bruh};
 
-	Option<Arena> ad = move(arena);
+	Option<Arena> ad = arena.unwrap();
 
-	auto a2 = arena.unwrap();
+	auto a2 = ad.unwrap();
 
-	printf("%p", a2.create<i32>());
+	printf("%p\n", a2.create<i32>());
 
 	return 0;
 }

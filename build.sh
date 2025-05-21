@@ -1,4 +1,3 @@
-# NOTE: We're not using lib C++, so we don't even need the ++ version of the compiler
 cc=clang++
 cflags='-std=c++17 -Wall -Wextra -pipe -fsanitize=address -fsanitize=undefined'
 
@@ -13,3 +12,4 @@ case $mode in
 	"release") $cc -std=c++17 -O2 -s $cflags $required_cflags main.cpp lib.cpp -o Example.exe ;;
 esac
 
+./Example.exe
