@@ -1,0 +1,10 @@
+*.o
+*.lib
+*.dll
+*.exe
+*.out
+*.ilk
+*.exp
+*.pdb
+.fs*
+.fossil*
