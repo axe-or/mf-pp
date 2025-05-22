@@ -11,6 +11,7 @@ struct Result {
 	};
 	bool has_value_;
 
+	[[nodiscard]]
 	Val unwrap(){
 		if(!has_value_){
 			panic("Cannot unwrap error result");
@@ -21,6 +22,15 @@ struct Result {
 		return tmp;
 	}
 
+	[[nodiscard]]
+	Val or_else(Val alt){
+		if(!has_value_){
+			return forward<Val>(alt);
+		}
+		Val tmp = move(has_value_);
+		has_value_ = false;
+		return tmp;
+	}
 	Result<Val, Err>* clear(){
 		if(has_value_){
 			value_.~Val();
@@ -76,8 +86,6 @@ struct Result {
 		has_value_ = false;
 		return *p;
 	}
-
-
 
 	mf_force_inline constexpr auto ok() const { return has_value_; }
 

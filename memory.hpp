@@ -2,9 +2,10 @@
 #include "traits.hpp"
 #include "types.hpp"
 #include "ensure.hpp"
+#include "option.hpp"
 #include "slice.hpp"
 
-void* operator new(size_t, void*);
+void* operator new(usize, void*);
 
 namespace mf {
 
@@ -85,20 +86,38 @@ struct Arena : public Allocator {
 	}
 };
 
+// struct PoolNode;
+struct PoolNode {
+	PoolNode* next;
+};
+
 struct Pool : public Allocator {
-	void* data;
+	byte* data;
 	usize capacity;
 	usize block_size;
+	usize block_align;
+	PoolNode* head;
 
+	void* alloc_block();
 	void* alloc(usize size, usize align) override;
 	bool free(void* p, usize size, usize align) override;
 	bool free_all() override;
 	bool resize(void* p, usize old_size, usize new_size) override;
 
-	Pool() : data{nullptr}, capacity{0}, block_size{0} {}
+	Pool() : data{nullptr}, capacity{0}, block_size{0}, block_align{0}, head{nullptr} {}
+	Pool(Pool const&) = delete;
+
+	Pool(Pool&& p)
+		: data{exchange(p.data, nullptr)}
+		, capacity{exchange(p.capacity, 0)}
+		, block_size{p.block_size}
+		, block_align{p.block_align}
+		, head{exchange(p.head, nullptr)}
+	{}
+
+	static
+	Option<Pool> init(Slice<byte> buf, usize block_size, usize block_align);
 };
 
-
 }
-
 
