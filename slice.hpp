@@ -45,3 +45,4 @@ struct Slice {
 	Slice(T* p, usize n) : _data{p}, _length{n} {}
 };
 }
+
