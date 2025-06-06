@@ -78,7 +78,7 @@ struct Arena : public Allocator {
 		: data{ exchange(a.data, nullptr) }
 		, capacity{ exchange(a.capacity, 0) } {}
 
-	static Arena from_buffer(Slice<u8> buf){
+	static Arena init(Slice<u8> buf){
 		Arena a;
 		a.capacity = buf.len();
 		a.data = buf.data();

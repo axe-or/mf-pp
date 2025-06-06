@@ -31,6 +31,7 @@ struct Result {
 		has_value_ = false;
 		return tmp;
 	}
+
 	Result<Val, Err>* clear(){
 		if(has_value_){
 			value_.~Val();
@@ -65,6 +66,7 @@ struct Result {
 	auto& operator=(Result<Val, Err> const& res){
 		return *(new (clear()) Result<Val, Err>{ res });
 	}
+
 	auto& operator=(Result<Val, Err> && res){
 		return *(new (clear()) Result<Val, Err>{ move(res) });
 	}

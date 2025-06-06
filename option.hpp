@@ -5,7 +5,9 @@
 namespace mf {
 template<typename T>
 struct Option {
-	union { T data_; };
+	union {
+		T data_;
+	};
 	bool has_data_;
 
 	[[nodiscard]]
@@ -58,6 +60,7 @@ struct Option {
 	auto& operator=(T const& v){
 		return *(new (clear()) Option<T>{ v });
 	}
+
 	auto& operator=(T && v){
 		return *(new (clear()) Option<T>{ mf::move(v) });
 	}
